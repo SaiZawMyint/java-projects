@@ -1,0 +1,210 @@
+package com.J9Tool;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.util.ArrayList;
+import com.J9File.Open;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import com.J9FrameWork.J9Frame;
+import com.SSC.SSEncoder;
+
+import ErrorLogs.EditorException;
+
+public class J9TextEditorPane extends JPanel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 789461088273541431L;
+	
+	public static ArrayList<EditorTitleObject> titles=new ArrayList<EditorTitleObject>();
+	
+	public static ArrayList<EditorBodyObject> bodies=new ArrayList<EditorBodyObject>();
+	
+	public static ArrayList<J9TextEditorPane> panes=new ArrayList<J9TextEditorPane>();
+	
+	
+	//rec
+	
+	public static ArrayList<EditorTitleObject> rect=new ArrayList<EditorTitleObject>();
+	
+	
+	EditorTitleObject tab;
+	EditorBodyObject textEditor;
+	static JPanel tabs,body;
+	static CardLayout c = new CardLayout();
+	
+	public J9TextEditorPane() {
+		// TODO Auto-generated constructor stub
+		this.setLayout(new BorderLayout());
+		J9TextEditorPane.panes.add(this);
+		tabs=new JPanel();
+		tabs.setBackground(Color.DARK_GRAY);
+		Box b=Box.createHorizontalBox();
+		b.add(tabs);
+		body=new JPanel();
+		body.setBackground(Color.DARK_GRAY);
+		body.setLayout(c);
+		
+		addNewEditorTab("Untitle *");
+		
+		this.add(tabs,BorderLayout.NORTH);
+		this.add(body,BorderLayout.CENTER);
+		setSelectEditor(0);
+		
+	}
+	
+	public static void addNewEditorTab(String tabname) {
+		EditorTitleObject t=new EditorTitleObject(tabname, "src(C:\\Users\\Acer\\eclipse-workspace\\workspace-2\\J9Frame\\Icon\\filemenu.png) size(15,15)");
+		J9TextEditorPane.tabs.add(t);
+		EditorBodyObject b=new EditorBodyObject(tabname);
+		tempSelectedEditor(b,t);
+	}
+	
+	public static void Open() {
+		Open p=new Open();
+		Object[] obj= {
+				"Select file(s) : ",p
+		};
+		JOptionPane.showConfirmDialog(J9Frame.j9Frames.get(0), obj, "Open file", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	}
+	
+	 private static void analyseRec(int t) {
+		// TODO Auto-generated method stub
+		 int record=0;
+		 int count=0;
+		for(int i=0;i<J9TextEditorPane.rect.size();i++) {
+			if(J9TextEditorPane.rect.get(i) == J9TextEditorPane.titles.get(t)) {
+				record=i;
+				count++;
+			}
+		}
+		if(count > 0) {
+			J9TextEditorPane.rect.remove(record);
+			J9TextEditorPane.rect.add(J9TextEditorPane.titles.get(t));
+		}
+		if(count == 0) {
+			J9TextEditorPane.rect.add(J9TextEditorPane.titles.get(t));
+		}
+	}
+
+	public void closeEditor(int index) {
+		tabs.remove(index);
+ 		body.remove(J9TextEditorPane.bodies.get(index));
+        resetFocus(index);
+		repaint();
+		setIgnoreRepaint(true);
+	}
+	
+	protected void resetFocus(int index) {
+		int curentR=0;
+		int cR=0;
+		for(int i=0;i<J9TextEditorPane.rect.size();i++) {
+			if(J9TextEditorPane.rect.get(i).getName().equalsIgnoreCase(J9TextEditorPane.titles.get(index).getName())) {
+				curentR=i;
+				cR++;
+			}
+		}
+		if(cR>0) {
+			J9TextEditorPane.rect.remove(curentR);
+			J9TextEditorPane.titles.remove(index);
+			J9TextEditorPane.bodies.remove(index);
+		}
+			int count=0;
+			int rec=0;
+			for(int i=0;i<J9TextEditorPane.titles.size();i++) {
+				if(J9TextEditorPane.titles.get(i)==J9TextEditorPane.rect.get(J9TextEditorPane.rect.size()-1)) {
+					count ++;
+					rec=i;
+				}
+			}
+			if(count>0)
+				setSelectEditor(rec);
+	}
+	
+	public static void tempSelectedEditor(EditorBodyObject b,EditorTitleObject t) {
+		for(int i=J9TextEditorPane.bodies.size()-1;i>=0;i--) {
+			if(J9TextEditorPane.bodies.get(i)==b) {
+				J9TextEditorPane.body.add(J9TextEditorPane.bodies.get(i));
+				
+			}else {
+				J9TextEditorPane.body.remove(J9TextEditorPane.bodies.get(i));
+			}
+			if(J9TextEditorPane.titles.get(i)==t) {
+				setSelectEditor(i);
+				
+			}else {
+				removeSelectEditor(i);
+				
+			}
+		}
+	}
+	
+	public void tempEditor(int index) {
+		body.removeAll();
+		body.add(J9TextEditorPane.bodies.get(index));
+		body.repaint();
+	}
+	
+	static int getEditor(String editor) throws EditorException {
+		int ed=0;
+		
+		for(int i=0;i<J9TextEditorPane.bodies.size();i++) {
+			if(J9TextEditorPane.bodies.get(i).getName().equalsIgnoreCase(editor) ||
+					J9TextEditorPane.titles.get(i).getName().equalsIgnoreCase(editor)) {
+				ed=i;
+			}
+		}
+		
+		if(ed==0) {
+			throw new EditorException("No editor page found !");
+		}
+		
+		return ed;
+	}
+	
+	static void setSelectEditor(int index) {
+		J9TextEditorPane.titles.get(index).setBackground(Color.BLACK);
+		J9TextEditorPane.titles.get(index).selected=true;
+		J9TextEditorPane.titles.get(index).focousUpdate();
+		J9TextEditorPane.panes.get(0).tempEditor(index);
+		J9Frame.updateFrameTitle(J9TextEditorPane.titles.get(index).getName());
+		analyseRec(index);
+	}
+	static void removeSelectEditor(int index) {
+		J9TextEditorPane.titles.get(index).setBackground(Color.DARK_GRAY);
+		J9TextEditorPane.titles.get(index).selected=false;
+		J9TextEditorPane.titles.get(index).focousUpdate();
+	}
+ public	static int getSelectedEditor() {
+		int index=0;
+		
+		for(int i=0;i<J9TextEditorPane.titles.size();i++) {
+			if(J9TextEditorPane.titles.get(i).selected)
+				index=i;
+		}
+		
+		return index;
+	}
+ 
+ public void addEditorTabTitleEvent() {
+	 
+ }
+
+public static void consoleRun() {
+	// TODO Auto-generated method stub
+	J9TextEditorPane.bodies.get(getSelectedEditor()).updateConsole(J9TextEditorPane.bodies.get(J9TextEditorPane.getSelectedEditor()).textPane.getText());
+}
+
+public static void appRun() {
+	J9TextEditorPane.bodies.get(getSelectedEditor()).appRun();
+}
+ 
+}

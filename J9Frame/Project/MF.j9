@@ -1,0 +1,4 @@
+<frame style[background-color: dark_gray;padding:(10,20);]>
+<panel style[background-color: none;color:white;]>Name : </>
+<text style[background-color: light_gray;size: (100,30);padding:(10,10);]></>
+</>

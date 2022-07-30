@@ -1,0 +1,10 @@
+<frame style[background-color:blue;size:(1000,500);padding:(5);] title[My Frame]>
+<panel style[background-color:red;]>
+<panel id[name] style[color:white;border:(0,0,0,1) solid(black);background-color:none;padding:(10,5);icon : src(C:\Users\Acer\eclipse-workspace\workspace-2\J9Frame\Icon\appLogo.png) size(15,15);]>Username</>
+<text style[background-color:none;color:white;border : (0,0,1,0) solid(black);]></>
+</>
+<panel style[background-color:red;]>
+<panel id[name] style[color:white;border:(0,0,0,1) solid(black);background-color:none;padding:(10,5);icon : src(C:\Users\Acer\eclipse-workspace\workspace-2\J9Frame\Icon\appLogo.png) size(15,15);]>Password</>
+<text style[background-color:none;color:white;border : (0,0,1,0) solid(black);]></>
+</>
+</>

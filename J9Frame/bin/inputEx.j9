@@ -1,0 +1,10 @@
+<frame style[background-color:blue;size:(1000,500);]>
+<panel style[background-color:red;size:(90%,30);]>
+<panel id[name] style[color:white;border:(0,0,0,1) solid(black);background-color:none;padding:(10,5);]>hello</>
+<text style[background-color:none;color:white;border : (0,0,1,0) solid(black);]></>
+</>
+<panel style[background-color:red;size:(90%,30);]>
+<panel id[name] style[color:white;border:(0,0,0,1) solid(black);background-color:none;padding:(10,5);]>hello</>
+<text style[background-color:none;color:white;border : (0,0,1,0) solid(black);]></>
+</>
+</>

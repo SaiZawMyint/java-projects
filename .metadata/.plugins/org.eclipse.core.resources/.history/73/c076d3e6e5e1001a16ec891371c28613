@@ -1,0 +1,20 @@
+import com.J93D.J3DFrame;
+import com.J93D.J3DScreen;
+
+public class Test {
+
+	//get 3D frame
+	static J3DFrame frame;
+	
+	//get 3D Screen
+	static J3DScreen screen;
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		frame=new J3DFrame();
+		screen=new J3DScreen();
+		
+		frame.add(screen);
+	}
+
+}

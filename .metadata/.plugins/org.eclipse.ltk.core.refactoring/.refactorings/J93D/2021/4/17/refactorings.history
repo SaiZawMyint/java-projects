@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.J93D.J9DFrame&apos; to &apos;J93DFrame&apos;&#x0D;&#x0A;- Original project: &apos;J93D&apos;&#x0D;&#x0A;- Original element: &apos;com.J93D.J9DFrame&apos;&#x0D;&#x0A;- Renamed element: &apos;com.J93D.J93DFrame&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;J9DFrame&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;com.J93D{J9DFrame.java[J9DFrame" matchStrategy="1" name="J93DFrame" qualified="false" references="true" similarDeclarations="false" stamp="1619009059596" textual="false" version="1.0"/>
+</session>
